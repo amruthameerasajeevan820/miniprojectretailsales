@@ -1,0 +1,105 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/x-ms-odc; charset=utf-8">
+<meta name=ProgId content=ODC.Database>
+<meta name=SourceType content=OLEDB>
+<title>Query - mini project</title>
+<xml id=docprops><o:DocumentProperties
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns="http://www.w3.org/TR/REC-html40">
+  <o:Description>Connection to the 'mini project' query in the workbook.</o:Description>
+  <o:Name>Query - mini project</o:Name>
+ </o:DocumentProperties>
+</xml><xml id=msodc><odc:OfficeDataConnection
+  xmlns:odc="urn:schemas-microsoft-com:office:odc"
+  xmlns="http://www.w3.org/TR/REC-html40">
+  <odc:PowerQueryConnection odc:Type="OLEDB">
+   <odc:ConnectionString>Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location=&quot;mini project&quot;;Extended Properties=&quot;&quot;</odc:ConnectionString>
+   <odc:CommandType>SQL</odc:CommandType>
+   <odc:CommandText>SELECT * FROM [mini project]</odc:CommandText>
+  </odc:PowerQueryConnection>
+  <odc:PowerQueryMashupData>&lt;Mashup xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns=&quot;http://schemas.microsoft.com/DataMashup&quot;&gt;&lt;Client&gt;EXCEL&lt;/Client&gt;&lt;Version&gt;2.146.178.0&lt;/Version&gt;&lt;MinVersion&gt;2.21.0.0&lt;/MinVersion&gt;&lt;Culture&gt;en-IN&lt;/Culture&gt;&lt;SafeCombine&gt;true&lt;/SafeCombine&gt;&lt;Items&gt;&lt;Query Name=&quot;mini project&quot;&gt;&lt;Formula&gt;&lt;![CDATA[let&#13;&#10;    Source = Csv.Document(File.Contents(&quot;C:\Users\ADHITHYA SAJEEVAN\Downloads\Retail_Sales project.csv&quot;),[Delimiter=&quot;,&quot;, Columns=11, Encoding=1252, QuoteStyle=QuoteStyle.None]),&#13;&#10;    #&quot;Promoted Headers&quot; = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),&#13;&#10;    #&quot;Changed Type&quot; = Table.TransformColumnTypes(#&quot;Promoted Headers&quot;,{{&quot;Order ID&quot;, type text}, {&quot;Date&quot;, type date}, {&quot;Product Name&quot;, type text}, {&quot;Category&quot;, type text}, {&quot;Brand&quot;, type text}, {&quot;Quantity Sold&quot;, Int64.Type}, {&quot;Unit Price&quot;, Int64.Type}, {&quot;Total Sales&quot;, Int64.Type}, {&quot;Discount&quot;, Int64.Type}, {&quot;Customer Name&quot;, type text}, {&quot;Region&quot;, type text}}),&#13;&#10;    #&quot;Trimmed Text&quot; = Table.TransformColumns(Table.TransformColumnTypes(#&quot;Changed Type&quot;, {{&quot;Unit Price&quot;, type text}, {&quot;Date&quot;, type text}, {&quot;Quantity Sold&quot;, type text}, {&quot;Total Sales&quot;, type text}, {&quot;Discount&quot;, type text}}, &quot;en-IN&quot;),{{&quot;Unit Price&quot;, Text.Trim, type text}, {&quot;Order ID&quot;, Text.Trim, type text}, {&quot;Date&quot;, Text.Trim, type text}, {&quot;Product Name&quot;, Text.Trim, type text}, {&quot;Category&quot;, Text.Trim, type text}, {&quot;Brand&quot;, Text.Trim, type text}, {&quot;Quantity Sold&quot;, Text.Trim, type text}, {&quot;Total Sales&quot;, Text.Trim, type text}, {&quot;Discount&quot;, Text.Trim, type text}, {&quot;Customer Name&quot;, Text.Trim, type text}, {&quot;Region&quot;, Text.Trim, type text}}),&#13;&#10;    #&quot;Cleaned Text&quot; = Table.TransformColumns(#&quot;Trimmed Text&quot;,{{&quot;Unit Price&quot;, Text.Clean, type text}, {&quot;Order ID&quot;, Text.Clean, type text}, {&quot;Date&quot;, Text.Clean, type text}, {&quot;Product Name&quot;, Text.Clean, type text}, {&quot;Category&quot;, Text.Clean, type text}, {&quot;Brand&quot;, Text.Clean, type text}, {&quot;Quantity Sold&quot;, Text.Clean, type text}, {&quot;Total Sales&quot;, Text.Clean, type text}, {&quot;Discount&quot;, Text.Clean, type text}, {&quot;Customer Name&quot;, Text.Clean, type text}, {&quot;Region&quot;, Text.Clean, type text}}),&#13;&#10;    #&quot;Capitalized Each Word&quot; = Table.TransformColumns(#&quot;Cleaned Text&quot;,{{&quot;Unit Price&quot;, Text.Proper, type text}, {&quot;Order ID&quot;, Text.Proper, type text}, {&quot;Date&quot;, Text.Proper, type text}, {&quot;Product Name&quot;, Text.Proper, type text}, {&quot;Category&quot;, Text.Proper, type text}, {&quot;Brand&quot;, Text.Proper, type text}, {&quot;Quantity Sold&quot;, Text.Proper, type text}, {&quot;Total Sales&quot;, Text.Proper, type text}, {&quot;Discount&quot;, Text.Proper, type text}, {&quot;Customer Name&quot;, Text.Proper, type text}, {&quot;Region&quot;, Text.Proper, type text}}),&#13;&#10;    #&quot;Changed Type1&quot; = Table.TransformColumnTypes(#&quot;Capitalized Each Word&quot;,{{&quot;Date&quot;, type date}, {&quot;Unit Price&quot;, Int64.Type}, {&quot;Total Sales&quot;, Int64.Type}, {&quot;Discount&quot;, Int64.Type}, {&quot;Order ID&quot;, type text}}),&#13;&#10;    #&quot;Replaced Value&quot; = Table.ReplaceValue(#&quot;Changed Type1&quot;,&quot;Elec&quot;,&quot;Electronics&quot;,Replacer.ReplaceText,{&quot;Category&quot;}),&#13;&#10;    #&quot;Replaced Value1&quot; = Table.ReplaceValue(#&quot;Replaced Value&quot;,&quot;Electronicstronics&quot;,&quot;Electronics&quot;,Replacer.ReplaceText,{&quot;Category&quot;}),&#13;&#10;    #&quot;Replaced Value2&quot; = Table.ReplaceValue(#&quot;Replaced Value1&quot;,&quot;&quot;,&quot;Electronics&quot;,Replacer.ReplaceValue,{&quot;Category&quot;}),&#13;&#10;    #&quot;Replaced Value3&quot; = Table.ReplaceValue(#&quot;Replaced Value2&quot;,null,0,Replacer.ReplaceValue,{&quot;Discount&quot;}),&#13;&#10;    #&quot;Added Custom&quot; = Table.AddColumn(#&quot;Replaced Value3&quot;, &quot;Brand Coloumn&quot;, each [Brand]&amp;&quot; &quot;&amp;[Product Name]),&#13;&#10;    #&quot;Reordered Columns&quot; = Table.ReorderColumns(#&quot;Added Custom&quot;,{&quot;Order ID&quot;, &quot;Date&quot;, &quot;Product Name&quot;, &quot;Category&quot;, &quot;Brand&quot;, &quot;Brand Coloumn&quot;, &quot;Quantity Sold&quot;, &quot;Unit Price&quot;, &quot;Total Sales&quot;, &quot;Discount&quot;, &quot;Customer Name&quot;, &quot;Region&quot;}),&#13;&#10;    #&quot;Changed Type2&quot; = Table.TransformColumnTypes(#&quot;Reordered Columns&quot;,{{&quot;Quantity Sold&quot;, Int64.Type}, {&quot;Brand Coloumn&quot;, type text}}),&#13;&#10;    #&quot;Replaced Value4&quot; = Table.ReplaceValue(#&quot;Changed Type2&quot;,null,1.936,Replacer.ReplaceValue,{&quot;Quantity Sold&quot;}),&#13;&#10;    #&quot;Replaced Value5&quot; = Table.ReplaceValue(#&quot;Replaced Value4&quot;,null,1261.3065326633166,Replacer.ReplaceValue,{&quot;Unit Price&quot;}),&#13;&#10;    #&quot;Changed Type3&quot; = Table.TransformColumnTypes(#&quot;Replaced Value5&quot;,{{&quot;Quantity Sold&quot;, Int64.Type}, {&quot;Unit Price&quot;, Int64.Type}}),&#13;&#10;    #&quot;Added Custom1&quot; = Table.AddColumn(#&quot;Changed Type3&quot;, &quot;Total Sales.1&quot;, each [Quantity Sold]*[Unit Price]),&#13;&#10;    #&quot;Reordered Columns1&quot; = Table.ReorderColumns(#&quot;Added Custom1&quot;,{&quot;Order ID&quot;, &quot;Date&quot;, &quot;Product Name&quot;, &quot;Category&quot;, &quot;Brand&quot;, &quot;Brand Coloumn&quot;, &quot;Quantity Sold&quot;, &quot;Unit Price&quot;, &quot;Total Sales.1&quot;, &quot;Total Sales&quot;, &quot;Discount&quot;, &quot;Customer Name&quot;, &quot;Region&quot;}),&#13;&#10;    #&quot;Removed Columns&quot; = Table.RemoveColumns(#&quot;Reordered Columns1&quot;,{&quot;Total Sales&quot;}),&#13;&#10;    #&quot;Added Custom2&quot; = Table.AddColumn(#&quot;Removed Columns&quot;, &quot;Net Sales&quot;, each [Total Sales.1]-[Discount]),&#13;&#10;    #&quot;Reordered Columns2&quot; = Table.ReorderColumns(#&quot;Added Custom2&quot;,{&quot;Order ID&quot;, &quot;Date&quot;, &quot;Product Name&quot;, &quot;Category&quot;, &quot;Brand&quot;, &quot;Brand Coloumn&quot;, &quot;Quantity Sold&quot;, &quot;Unit Price&quot;, &quot;Total Sales.1&quot;, &quot;Discount&quot;, &quot;Net Sales&quot;, &quot;Customer Name&quot;, &quot;Region&quot;}),&#13;&#10;    #&quot;Changed Type4&quot; = Table.TransformColumnTypes(#&quot;Reordered Columns2&quot;,{{&quot;Total Sales.1&quot;, Int64.Type}, {&quot;Discount&quot;, Int64.Type}, {&quot;Net Sales&quot;, Int64.Type}}),&#13;&#10;    #&quot;Renamed Columns&quot; = Table.RenameColumns(#&quot;Changed Type4&quot;,{{&quot;Brand Coloumn&quot;, &quot;Brand Type&quot;}})&#13;&#10;in&#13;&#10;    #&quot;Renamed Columns&quot;]]&gt;&lt;/Formula&gt;&lt;IsParameterQuery xsi:nil=&quot;true&quot; /&gt;&lt;IsDirectQuery xsi:nil=&quot;true&quot; /&gt;&lt;/Query&gt;&lt;/Items&gt;&lt;/Mashup&gt;</odc:PowerQueryMashupData>
+ </odc:OfficeDataConnection>
+</xml>
+<style>
+<!--
+    .ODCDataSource
+    {
+    behavior: url(dataconn.htc);
+    }
+-->
+</style>
+ 
+</head>
+
+<body onload='init()' scroll=no leftmargin=0 topmargin=0 rightmargin=0 style='border: 0px'>
+<table style='border: solid 1px threedface; height: 100%; width: 100%' cellpadding=0 cellspacing=0 width='100%'> 
+  <tr> 
+    <td id=tdName style='font-family:arial; font-size:medium; padding: 3px; background-color: threedface'> 
+      &nbsp; 
+    </td> 
+     <td id=tdTableDropdown style='padding: 3px; background-color: threedface; vertical-align: top; padding-bottom: 3px'>
+
+      &nbsp; 
+    </td> 
+  </tr> 
+  <tr> 
+    <td id=tdDesc colspan='2' style='border-bottom: 1px threedshadow solid; font-family: Arial; font-size: 1pt; padding: 2px; background-color: threedface'>
+
+      &nbsp; 
+    </td> 
+  </tr> 
+  <tr> 
+    <td colspan='2' style='height: 100%; padding-bottom: 4px; border-top: 1px threedhighlight solid;'> 
+      <div id='pt' style='height: 100%' class='ODCDataSource'></div> 
+    </td> 
+  </tr> 
+</table> 
+
+  
+<script language='javascript'> 
+
+function init() { 
+  var sName, sDescription; 
+  var i, j; 
+  
+  try { 
+    sName = unescape(location.href) 
+  
+    i = sName.lastIndexOf(".") 
+    if (i>=0) { sName = sName.substring(1, i); } 
+  
+    i = sName.lastIndexOf("/") 
+    if (i>=0) { sName = sName.substring(i+1, sName.length); } 
+
+    document.title = sName; 
+    document.getElementById("tdName").innerText = sName; 
+
+    sDescription = document.getElementById("docprops").innerHTML; 
+  
+    i = sDescription.indexOf("escription>") 
+    if (i>=0) { j = sDescription.indexOf("escription>", i + 11); } 
+
+    if (i>=0 && j >= 0) { 
+      j = sDescription.lastIndexOf("</", j); 
+
+      if (j>=0) { 
+          sDescription = sDescription.substring(i+11, j); 
+        if (sDescription != "") { 
+            document.getElementById("tdDesc").style.fontSize="x-small"; 
+          document.getElementById("tdDesc").innerHTML = sDescription; 
+          } 
+        } 
+      } 
+    } 
+  catch(e) { 
+
+    } 
+  } 
+</script> 
+
+</body> 
+ 
+</html>
